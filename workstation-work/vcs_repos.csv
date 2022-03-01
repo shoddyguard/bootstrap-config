@@ -1,0 +1,11 @@
+RepoURI,LocalPath,ParentDirectory,RepoName
+git@github.com:Brownserve-UK/Brownserve.PSTools.git,,Brownserve,
+git@github.com:Brownserve-UK/puppet-bootstrap.git,,Brownserve,
+git@github.com:red-gate/CORE-DataAmendmentScripts.git,,Redgate,
+git@github.com:red-gate/IS-DNSControl.git,,Redgate,
+git@github.com:red-gate/IS-Deployment.git,,Redgate,
+git@github.com:red-gate/IS-Scripts.git,,Redgate,
+git@github.com:red-gate/ITOps.PSTools.git,,Redgate,
+git@github.com:red-gate/itops-RedgateUser.git,C:\GlobalRepos,Redgate,
+git@github.com:red-gate/terraform-github.git,,Redgate,
+git@github.com:red-gate/terraform-testingco.git,,Redgate,
