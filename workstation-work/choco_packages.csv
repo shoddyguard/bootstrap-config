@@ -16,7 +16,6 @@ azure-cli,any
 azure-data-studio,any
 discord,any
 gimp,any
-cloudberryexplorer.amazons3,any
 virtualbox,latest
 vagrant,latest
 terraform,any
