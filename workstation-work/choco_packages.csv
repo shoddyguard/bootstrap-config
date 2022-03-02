@@ -16,8 +16,8 @@ azure-cli,any
 azure-data-studio,any
 discord,any
 gimp,any
-virtualbox,latest
-vagrant,latest
+virtualbox,any
+vagrant,any
 terraform,any
 packer,any
 vmwareworkstation,any
