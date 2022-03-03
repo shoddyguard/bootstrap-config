@@ -10,7 +10,6 @@ microsoft-windows-terminal,any
 line,any
 whatsapp,any
 bitwarden,any
-keeper,any
 sql-server-management-studio,any
 azure-cli,any
 azure-data-studio,any
@@ -21,3 +20,4 @@ vagrant,any
 terraform,any
 packer,any
 vmwareworkstation,any
+cascadia-code-nerd-font,any
