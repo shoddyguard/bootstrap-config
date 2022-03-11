@@ -6,11 +6,18 @@ $Modules = @(
     'Terminal-Icons'
 )
 $Modules | ForEach-Object { Import-Module $_ }
-Set-PoshPrompt -Theme (Join-Path $PSScriptRoot "profile.omp.json")
+Set-PoshPrompt -Theme (Join-Path $PSScriptRoot 'profile.omp.json')
 
-# Set some helpful history search things in PSReadline
-Set-PSReadlineKeyHandler -Key Ctrl+Shift+UpArrow -Function HistorySearchBackward
-Set-PSReadlineKeyHandler –Key Ctrl+Shift+DownArrow -Function HistorySearchForward
+# Load my ssh keys into the agent if they are not already
+$CurrentKeys = & ssh-add -L
+Get-ChildItem (Join-Path $HOME '.ssh') | Where-Object { $_.Extension -eq '.pub' } | ForEach-Object {
+    $Content = (Get-Content $_.FullName)
+    $Key = $_.FullName -replace '\.pub$', ''
+    if ($CurrentKeys -notcontains $Content)
+    {
+        & ssh-add $Key
+    }
+}
 
 ## Set a bunch of non-secure variables
 
@@ -22,6 +29,31 @@ $Global:BrownserveRepoPath = Join-Path $Global:RepoPath 'Brownserve'
 
 # Vault
 $env:VAULT_ADDR = 'https://vault.red-gate.com'
+
+# Helper function to upgrade chocolatey packages
+function Update-ChocolateyPackages
+{
+    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -eq $false)
+    {
+        throw "This script must be run as an administrator"
+    }
+    $Upgrades = & choco outdated -r
+    if ($Upgrades)
+    {
+        Write-Host 'The following packages will be upgraded:'
+        $Upgrades
+        $Answer = Read-Host 'Do you want to upgrade the Chocolatey packages? [Y/n]'
+        if ($Answer -eq 'Y')
+        {
+            & choco upgrade all -y
+        }
+    }
+    else
+    {
+        Write-Host 'No packages need to be upgraded.'
+    }
+}
 
 # Initializes the shell with various secrets and such
 function Set-SecureShellVariables
@@ -36,7 +68,7 @@ function Set-SecureShellVariables
             Name     = 'red-gate-vsts-main-v3'
             URL      = 'https://red-gate.pkgs.visualstudio.com/_packaging/Main/nuget/v3/index.json'
         }
-        GitHubToken = (Get-Secret -Name 'GitHubToken' -Vault SecretStore)
+        GitHubToken             = (Get-Secret -Name 'GitHubToken' -Vault SecretStore)
     }
 }
 function Clear-SecureShellVariables
