@@ -21,3 +21,6 @@ terraform,any
 packer,any
 vmwareworkstation,any
 cascadia-code-nerd-font,any
+ruby,any
+puppet,any
+pdk,any
